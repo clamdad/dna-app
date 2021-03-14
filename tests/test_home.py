@@ -9,5 +9,5 @@ from dnaapp.home import AppHomeDirectory
 
 
 def test_app_home():
-    ah = AppHomeDirectory('myapp')
+    ah = AppHomeDirectory('dnaapp')
     print(ah)
