@@ -1,0 +1,21 @@
+# Disable sudo to speed up the build
+sudo: false
+
+language: python
+python:
+  - "3.8"
+  - "3.9"
+
+# command to install dependencies
+install:
+  - pip install -r requirements.txt
+  - pip install codecov
+  - pip install pytest-cov
+
+# command to run tests
+script:
+  - pytest tests --cov cryptater --cov-report xml
+
+# Push the results back to codecov
+after_success:
+  - codecov
