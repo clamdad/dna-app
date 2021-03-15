@@ -14,7 +14,7 @@ install:
 
 # command to run tests
 script:
-  - pytest tests --cov cryptater --cov-report xml
+  - pytest tests --cov dnaapp --cov-report xml
 
 # Push the results back to codecov
 after_success:

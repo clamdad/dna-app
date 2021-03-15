@@ -13,7 +13,7 @@ from dnaapp.app import AppModel
 
 
 def test_app_constructor():
-    # Create an appliation
+    # Create an application
     app = AppModel(default_appname)
 
     # Prevent creating two Applications
@@ -41,3 +41,5 @@ def test_app_constructor():
     app2 = AppModel.get()
 
     assert app1 is app2
+
+    app2.config.save()
