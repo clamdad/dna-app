@@ -4,10 +4,21 @@
 # Distributed under the terms of the MIT License
 # The full license is in the file LICENSE, distributed with this software.
 # -----------------------------------------------------------------------------
+import os
+from pathlib import Path
 
-from dnaapp.home import AppHomeDirectory
+from dnaapp.config import AppConfig
 
 
-def test_app_home():
-    ah = AppHomeDirectory('dnaapp')
-    print(ah)
+def test_app_config():
+
+    cfgdir = Path('.tmpdir').resolve()
+    if not cfgdir.is_dir():
+        os.mkdir(str(cfgdir))
+
+    config_file = cfgdir / 'config.json'
+
+    cfg = AppConfig(config_file)
+    print(cfg.options)
+    cfg.save()
+

@@ -9,6 +9,7 @@ import logging
 from atom.api import Atom, Typed, Str
 
 from dnaapp.home import AppHomeDirectory
+from dnaapp import default_appname
 
 logger = logging.getLogger(__name__)
 
@@ -29,14 +30,14 @@ class AppModel(Atom):
     # Private instance storage
     _instance = None
 
-    def __init__(self, name: str, home=None, **kwargs):
+    def __init__(self, name=default_appname, home=None, **kwargs):
         """ Initialize Application Object
 
         """
 
         self._name = name
 
-        self._home = AppHomeDirectory('myapp', force=home)
+        self._home = AppHomeDirectory(name, force=home)
 
         logger.info('Using Application Home: {}'.format(self._home))
 
