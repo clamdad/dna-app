@@ -122,3 +122,24 @@ def _get_root_handler(name):
             return handler
 
     return None
+
+
+def _remove_root_handler(name):
+    """ Remove root logger Handler by name
+
+    Parameters
+    ----------
+    name: str
+        Handler name
+
+    """
+
+    root_logger = logging.getLogger('')
+
+    idx = None
+    for count, handler in enumerate(root_logger.handlers):
+        if handler.name == name:
+            idx = count
+
+    if idx is not None:
+        root_logger.handlers.pop(idx)

@@ -7,7 +7,8 @@
 import logging
 
 from atom.api import Atom, Typed, Str
-
+from dnaapp.logs import configure_root_logger
+from dnaapp.config import AppConfig
 from dnaapp.home import AppHomeDirectory
 from dnaapp import default_appname
 
@@ -27,6 +28,10 @@ class AppModel(Atom):
     home = property(lambda self: self._home)
     _home = Typed(AppHomeDirectory)
 
+    config = property(lambda self: self._config)
+    _config = Typed(AppConfig)
+
+
     # Private instance storage
     _instance = None
 
@@ -39,6 +44,8 @@ class AppModel(Atom):
 
         self._home = AppHomeDirectory(name, force=home)
 
+        self._config = AppConfig(self.home.home / 'config.json')
+
         logger.info('Using Application Home: {}'.format(self._home))
 
         # Call superclass constructor last
@@ -47,6 +54,10 @@ class AppModel(Atom):
         super(AppModel, self).__init__(**kwargs)
 
         logger.info('Created new {} application'.format(self.name))
+
+        # Apply configurations
+        loglevel = eval('logging.' + self.config.options.loglevel)
+        configure_root_logger(level=loglevel, logfile= self.home.home / '{}_log.txt'.format(self.name))
 
     def __new__(cls, *args, **kwargs):
         """ Create a new App

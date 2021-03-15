@@ -74,6 +74,7 @@ class AppConfig(Atom):
             with open(self.config_file, 'w') as f:
                 state = to_json_state(self.options, references=False)
                 json.dump(state, f, indent=2)
+            logger.info('Saved configuration to {}'.format(self.config_file))
         except FileNotFoundError as e:
             logger.error('Error writing config file {}'.format(self.config_file))
             raise (e)
