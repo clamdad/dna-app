@@ -60,10 +60,10 @@ def test_to_from_json():
     assert isinstance(obj2, BaseSubclass)
     assert obj2.amount == 5
 
-def test_to_from_json_noclass():
+def test_to_from_json_norefs():
     obj = BaseSubclass(amount=5, name='Aloysius')
-    jstr2 = to_json(obj, classinfo=False)
-    obj2 = from_json(jstr2, BaseSubclass)
+    jstr2 = to_json(obj, references=False)
+    obj2 = from_json(jstr2)
     assert obj2 is not obj
     assert isinstance(obj2, BaseSubclass)
     assert obj2.amount == 5

@@ -53,7 +53,7 @@ def from_json_state(state):
     return result
 
 
-def to_json_state(model, classinfo=True):
+def to_json_state(model, references=True):
     """ Convert an object o JSON serializable state
 
     Parameters
@@ -61,9 +61,8 @@ def to_json_state(model, classinfo=True):
     model: Base, dict, or list
         Object to convet to json
 
-    classinfo: bool
-        Include class information (__model__, _id, __ref__)
-        in serialized output
+    references: bool
+        Include reference information (_id, __ref__)
 
     Returns
     -------
@@ -74,15 +73,14 @@ def to_json_state(model, classinfo=True):
 
     state = encoder.flatten(model)
 
-    if not classinfo:
+    if not references:
         state.pop('_id')
-        state.pop('__model__')
         state.pop('__ref__')
 
     return state
 
 
-def to_json(model, classinfo=True):
+def to_json(model, references=True):
     """ Convert model to JSON string
 
     Parameters
@@ -95,26 +93,22 @@ def to_json(model, classinfo=True):
     str
 
     """
-    state = to_json_state(model, classinfo)
+    state = to_json_state(model, references)
 
     return json.dumps(state, indent=2)
 
 
-def from_json(jstr, cls=None):
-    """
+def from_json(jstr):
+    """ Convert JSON string to model object
 
     Parameters
     ----------
-    jstr
-    cls
+    jstr: str
 
     Returns
     -------
+    Base
 
     """
     state = json.loads(jstr)
-    obj = from_json_state(state)
-    if cls:
-        return cls(**obj)
-    else:
-        return obj
+    return from_json_state(state)
